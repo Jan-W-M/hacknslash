@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2cnlvd67thm3"]
+
+[ext_resource type="PackedScene" uid="uid://cnm5ffmveeu1v" path="res://player/player.tscn" id="1_4jwkj"]
+[ext_resource type="PackedScene" uid="uid://eqh5cc3imgue" path="res://enemy/enemy.tscn" id="1_kqff7"]
+[ext_resource type="MeshLibrary" uid="uid://dvam2veu1xphv" path="res://test/tilests.tres" id="1_qsscc"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_nxuve"]
+vertices = PackedVector3Array(-0.25, 0.52, 6.5, 0.25, 0.52, 7, 1.25, 0.52, 6.75, 1.25, 0.52, 4.25, -0.25, 0.52, 4.25, 1.5, 0.52, -7.25, 0, 0.52, -7.75, -0.5, 0.52, -7.25, 1.25, 0.52, 4.25, 1.75, 0.52, 3.75, 1.5, 0.52, -7.25, -0.5, 0.52, -7.25, -0.75, 0.52, 3.75, -0.25, 0.52, 4.25, -8.25, 0.52, -1.25, -8.75, 0.52, -1, -8, 0.52, 2.75, -2.75, 0.52, 4.25, -2, 0.52, 3.5, -8.25, 0.52, 6.25, -2.75, 0.52, 6.25, -2.75, 0.52, 4.25, -8, 0.52, 2.75, -8.25, 0.52, -1.25, -2, 0.52, 3.5, -0.75, 0.52, 3.75, -0.5, 0.52, -7.25, -8.25, 0.52, -7.25, 9, 0.52, 1.75, 9.75, 0.52, -1, 9.25, 0.52, -1.25, 9, 0.52, 1.75, 9.25, 0.52, -1.25, 9, 0.52, -3.75, 1.5, 0.52, -7.25, 1.75, 0.52, 3.75, 3, 0.52, 3.5, 3.75, 0.52, 4.25, 3.75, 0.52, 6.25, 9.25, 0.52, 6.25, 9, 0.52, 1.75, 9, 0.52, -3.75, 9.25, 0.27, -7.25, 1.5, 0.52, -7.25, 3, 0.52, 3.5, 3.75, 0.52, 4.25, 9, 0.52, 1.75)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3), PackedInt32Array(7, 6, 5), PackedInt32Array(13, 12, 8), PackedInt32Array(8, 12, 9), PackedInt32Array(9, 12, 11), PackedInt32Array(9, 11, 10), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(17, 14, 18), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 22), PackedInt32Array(24, 23, 25), PackedInt32Array(25, 23, 27), PackedInt32Array(25, 27, 26), PackedInt32Array(30, 29, 28), PackedInt32Array(32, 31, 33), PackedInt32Array(33, 31, 36), PackedInt32Array(33, 36, 35), PackedInt32Array(33, 35, 34), PackedInt32Array(38, 37, 39), PackedInt32Array(39, 37, 40), PackedInt32Array(41, 43, 42), PackedInt32Array(46, 45, 44)]
+agent_radius = 0.6
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.369747, 0.929133, 0, -0.929133, 0.369747, 0, 10.1507, 0)
+
+[node name="player" parent="." instance=ExtResource("1_4jwkj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.298795, 0, 1.82151)
+
+[node name="enemy" parent="." instance=ExtResource("1_kqff7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.25786)
+
+[node name="enemy2" parent="." instance=ExtResource("1_kqff7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6463, 0, -2.25786)
+
+[node name="enemy3" parent="." instance=ExtResource("1_kqff7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.22631)
+
+[node name="enemy4" parent="." instance=ExtResource("1_kqff7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35071, 0, -2.25786)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_nxuve")
+
+[node name="GridMap2" type="GridMap" parent="NavigationRegion3D"]
+mesh_library = ExtResource("1_qsscc")
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+bake_navigation = true
+data = {
+"cells": PackedInt32Array(0, 65535, 1048655, 65534, 65529, 1048586, 2, 65529, 1048586, 6, 65533, 1048586, 6, 1, 1048586, 65530, 65533, 1048586, 65530, 1, 1048586, 65534, 5, 1048620, 65531, 65530, 1441816, 5, 65530, 655384, 5, 4, 1048600, 65531, 4, 24, 5, 65528, 8, 7, 65530, 8, 9, 65528, 8, 9, 65530, 1441816, 9, 4, 24, 7, 4, 70, 7, 65528, 70, 7, 6, 23, 5, 6, 1441815, 9, 6, 1048599, 65531, 6, 1048584, 65529, 6, 1048584, 65527, 6, 1048584, 65529, 4, 1048584, 65527, 4, 1048600, 65529, 65530, 1048584, 65527, 65530, 655384, 65527, 65528, 655430, 65531, 65528, 1048646, 65529, 65528, 8, 65527, 65532, 12, 65527, 0, 12, 65527, 2, 11, 65527, 65534, 11, 9, 65532, 84, 9, 2, 655445, 9, 65534, 655371, 9, 0, 655371, 10, 65527, 36, 10, 7, 1441828, 65526, 7, 655396, 65526, 65527, 1048612, 6, 65527, 50, 65530, 65527, 50, 0, 65527, 20, 65532, 65527, 46, 2, 65527, 46, 65526, 65531, 1048616, 65526, 65535, 1441812, 65526, 3, 1441817, 10, 65531, 1441817, 0, 7, 655403, 2, 5, 1048620, 3, 4, 1048587, 3, 6, 1048587, 65533, 4, 1048587, 65533, 6, 1048587, 0, 5, 1048585, 65530, 7, 50, 6, 7, 50, 10, 3, 1048616, 10, 65535, 1048596)
+}

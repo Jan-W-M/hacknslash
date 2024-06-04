@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj8tv813x2wsc"]
+
+[ext_resource type="PackedScene" uid="uid://we06p8ju2xjv" path="res://test/secondtileset.gltf" id="1_10yp4"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="secondtileset" parent="." instance=ExtResource("1_10yp4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.39274, 0, -0.957338)
