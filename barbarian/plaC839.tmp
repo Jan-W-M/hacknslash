@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnm5ffmveeu1v"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_saxud"]
+[ext_resource type="Script" path="res://player/MovementController.gd" id="2_lgvxm"]
+[ext_resource type="Script" path="res://player/camera_controller.gd" id="3_5avid"]
+[ext_resource type="Script" path="res://player/DashTimer.gd" id="3_uopev"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_fvv8r"]
+points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_q1df6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ue6uv"]
+
+[node name="player" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_saxud")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("ConvexPolygonShape3D_fvv8r")
+
+[node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("player", "mesh_root")]
+script = ExtResource("2_lgvxm")
+player = NodePath("..")
+mesh_root = NodePath("../Meshroot")
+
+[node name="DashTimer" type="Timer" parent="MovementController"]
+script = ExtResource("3_uopev")
+
+[node name="Meshroot" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshroot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_q1df6")
+
+[node name="CamRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("3_5avid")
+
+[node name="CamJaw" type="Node3D" parent="CamRoot"]
+
+[node name="CamPitch" type="Node3D" parent="CamRoot/CamJaw"]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CamRoot/CamJaw/CamPitch"]
+transform = Transform3D(-1, 1.63814e-08, 8.58743e-08, 6.86546e-08, -0.460974, 0.887413, 5.41229e-08, 0.887413, 0.460974, 0, 11.4075, 4.68174)
+light_energy = 3.0
+spot_range = 87.196
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamRoot/CamJaw/CamPitch"]
+shape = SubResource("CapsuleShape3D_ue6uv")
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="CamRoot/CamJaw/CamPitch/SpringArm3D"]
+
+[connection signal="pressed_dash" from="." to="MovementController" method="_on_pressed_dash"]
+[connection signal="pressed_jump" from="." to="MovementController" method="_on_pressed_jump"]
+[connection signal="set_movement_direction" from="." to="MovementController" method="_on_set_movement_direction"]
+[connection signal="timeout" from="MovementController/DashTimer" to="MovementController" method="_on_dash_timer_timeout"]
+[connection signal="set_cam_rotation" from="CamRoot" to="MovementController" method="_on_set_cam_rotation"]
